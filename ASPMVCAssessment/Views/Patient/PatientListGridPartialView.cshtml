@@ -1,0 +1,138 @@
+﻿
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="MyGlobalTable" class="table table-bordered table-striped custome-datatable">
+                <thead>
+                    <tr>
+                        <th class="text-center">Patient Name</th>
+                        <th class="text-center">PasNumber</th>
+                        <th class="text-center">Telephone</th>
+                        <th class="text-center">Next Of Kin Name</th>
+                        <th class="text-center">Sex</th>
+                        <th class="text-center">Edit</th>
+                        <th class="text-center">Delete</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@*Delete modal*@
+<div class="modal fade delete-modal" id="deleteModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Delete</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hiddenId" />
+                <div class="container">
+                    <div class="row text-center">
+                        <p>
+                           Are you Sure to Delete?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnDeleteItem" class="btn btn-success waves-effect text-left" data-dismiss="modal">
+                    Yes
+                </button>
+                <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">
+                    No
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+            $("#MyGlobalTable").DataTable({
+            "processing": true,
+            "serverSide": true,
+            "filter": false,
+            "autoWidth": false,
+            "searching": true,
+            "orderMulti": false,
+            "Paginate": true,
+            "ajax": {
+                "url": "../Patient/loadPatientGrid",
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+                    d.searchText = $("#MyGlobalTable_filter input").val();
+                },
+            },
+            "columnDefs": [
+                {
+                    "targets": 5,
+                    "render": function (data, type, full, meta) {
+                        return "<a class='btn btn-info' onclick='editPatient(" + full.ID + ")' data-placement='top'>Edit</a>";
+                    }
+                },
+                {
+                    "targets": 6,
+                    "render": function (data, type, full, meta) {
+                        return "<a class='btn btn-info' onclick='showDeleteModal(" + full.ID + ")' data-placement='top'>Delete</a>";
+
+                    }
+                },
+                {
+                    "targets": [0],
+                    "visible": false
+                }
+
+            ],
+            "columns": [
+                //{ "data": "ID", "name": "ID", "autoWidth": false, "orderable": true },
+                { "data": "PatientName", "name": "PatientName", "autoWidth": true },
+                { "data": "PasNumber", "name": "PasNumber", "autoWidth": true },
+                { "data": "HomeTelephoneNumber", "name": "HomeTelephoneNumber", "autoWidth": true },
+                { "data": "NokName", "name": "NokName", "autoWidth": true },
+                { "data": "SexCodeName", "name": "SexCodeName", "autoWidth": true },
+
+
+            ],
+
+            "initComplete": function () {
+            }
+    });
+
+    //open delete dialog
+    function showDeleteModal(id) {
+        $("#hiddenId").val(id);
+        $("#deleteModal").modal("show");
+    }
+
+    $("#btnDeleteItem").on("click",
+        function () {
+            debugger;
+            var id = $("#hiddenId").val();
+            $.ajax({
+                "url": "/Patient/Delete",
+                data: { "id": id },
+                success: function (data) {
+                    debugger;
+                    if (data.Success) {
+                        alert(data.msg);
+                        $("#deleteModal").modal("hide");
+                        $("#MyGlobalTable").DataTable().ajax.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+            });
+        });
+
+
+        function editPatient(id) {
+            debugger;
+            window.location = '@Url.Action("Edit", "Patient")?id=' + id;
+        }
+</script>

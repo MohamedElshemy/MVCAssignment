@@ -1,0 +1,176 @@
+﻿@model ASPMVCAssessment.Models.PatientModel
+@using ASPMVCAssessment.BLL;
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+@using (Ajax.BeginForm("AddPatient", "Patient", new AjaxOptions { OnSuccess = "OnSucess1", HttpMethod = "Post" }))
+{
+
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-secondary custome-card custome-card-withoutbtn">
+
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>
+                                    Doctor
+                                    <span class="required">*</span>
+                                </label>
+
+                                @Html.DropDownListFor(model => model.DoctorId, new SelectList(new DoctorBLL().GetAll(), "Id", "DoctorName"), "Select", new { @class = "select2 form-control" })
+                                @Html.ValidationMessageFor(model => model.DoctorId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*Patient details*@
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Patient Name
+                                    <span class="required">*</span>
+                                </label>
+
+
+                                @Html.TextBoxFor(model => model.PatientName, new { @class = "form-control", type = "text" })
+                                @Html.ValidationMessageFor(model => model.PatientName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Pas Number
+                                    <span class="required">*</span>
+                                </label>
+
+
+                                @Html.TextBoxFor(model => model.PasNumber, new { @class = "form-control", type = "text" })
+                                @Html.ValidationMessageFor(model => model.PasNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Sex
+                                    <span class="required">*</span>
+                                </label>
+
+                                @Html.DropDownListFor(model => model.SexCodeId, new SelectList(new SexCodeBLL().GetAll(), "Id", "Name"), "Select", new { @class = "select2 form-control" })
+                                @Html.ValidationMessageFor(model => model.SexCodeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Home Telephone
+                                    <span class="required">*</span>
+                                </label>
+
+                                @Html.TextBoxFor(model => model.HomeTelephoneNumber, new { @class = "form-control", type = "text" })
+                                @Html.ValidationMessageFor(model => model.HomeTelephoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    Pas Number
+                                    <span class="required">*</span>
+                                </label>
+
+                                @Html.TextBoxFor(model => model.PasNumber, new { @class = "form-control", type = "text" })
+                                @Html.ValidationMessageFor(model => model.PasNumber, "", new { @class = "text-danger" })
+                            </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Nok Name
+                                        <span class="required">*</span>
+                                    </label>
+
+
+                                    @Html.TextBoxFor(model => model.nextOfKinModel.NokName, new { @class = "form-control", type = "text" })
+                                    @Html.ValidationMessageFor(model => model.nextOfKinModel.NokName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Nok Relationship
+                                        <span class="required">*</span>
+                                    </label>
+
+
+                                    @Html.TextBoxFor(model => model.nextOfKinModel.NokRelationshipCode, new { @class = "form-control", type = "text" })
+                                    @Html.ValidationMessageFor(model => model.nextOfKinModel.NokRelationshipCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Address 1
+                                        <span class="required">*</span>
+                                    </label>
+
+
+                                    @Html.TextBoxFor(model => model.nextOfKinModel.NokAddressLine1, new { @class = "form-control", type = "text" })
+                                    @Html.ValidationMessageFor(model => model.nextOfKinModel.NokAddressLine1, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Address 2
+                                        <span class="required">*</span>
+                                    </label>
+
+
+                                    @Html.TextBoxFor(model => model.nextOfKinModel.NokAddressLine2, new { @class = "form-control", type = "text" })
+                                    @Html.ValidationMessageFor(model => model.nextOfKinModel.NokAddressLine2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Address 3
+                                        <span class="required">*</span>
+                                    </label>
+
+
+                                    @Html.TextBoxFor(model => model.nextOfKinModel.NokAddressLine3, new { @class = "form-control", type = "text" })
+                                    @Html.ValidationMessageFor(model => model.nextOfKinModel.NokAddressLine3, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Address 4
+                                        <span class="required">*</span>
+                                    </label>
+
+
+                                    @Html.TextBoxFor(model => model.nextOfKinModel.NokAddressLine4, new { @class = "form-control", type = "text" })
+                                    @Html.ValidationMessageFor(model => model.nextOfKinModel.NokAddressLine4, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-danger">
+                        Save
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+
+}
